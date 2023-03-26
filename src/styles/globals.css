@@ -1,3 +1,10 @@
-/* @tailwind base; */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-img {
+  background-image: url('../assets/img/backgroundSearch.png');
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}

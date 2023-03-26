@@ -1,8 +1,8 @@
 import Head from "next/head";
-import Input from "@/components/Input";
-import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
-import { TextField, Button, Box, Grid } from "@mui/material";
+import { TextField, Button, Box, Avatar } from "@mui/material";
+import Logo from "../assets/img/iconQuick.png";
+import useSWR from "swr";
 
 export default function Home() {
   return (
@@ -20,7 +20,8 @@ export default function Home() {
           alignItems="center"
           minHeight="100vh"
         >
-          <div className="w-96 bg-gray-400 rounded px-6 py-8">
+          <div className="w-96 bg-gray-500 px-6 py-8 rounded-lg">
+            <Avatar className="mx-auto" src={"/src/assets/img/iconQuick.png" }/>
             <div className="text-xl mb-2 mx-auto">Bienvenido</div>
             <div className="text-sm mb-2 mx-auto">
               Sigue tus envios con la orden de transporte
@@ -34,10 +35,7 @@ export default function Home() {
               />
             </div>
             <div className="mt-6">
-              <Button
-                className="w-full h-14"
-                variant="contained"
-              >
+              <Button className="w-full h-14" variant="contained">
                 Buscar servicio
               </Button>
             </div>
