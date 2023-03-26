@@ -24,11 +24,7 @@ export default function Search() {
 
   const [newServiceId, setNewServiceId] = useState("");
 
-  const [servicesData, setServicesData] = useState({
-    companies: [],
-    data: {},
-    status: "",
-  });
+  const [servicesData, setServicesData] = useState({});
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
@@ -55,8 +51,14 @@ export default function Search() {
         let url = `https://integracion.smartquick.com.co:3005/v1/services/search/?code=${id}`;
         try {
           const { data } = await axios.get(url);
-          setServicesData(data);
+          if (data.data) {
+            console.log(data);
+            setServicesData(data.data);
+          } else {
+            router.push("/");
+          }
         } catch (error) {
+          router.push("/");
           console.log(error);
         }
       }
@@ -125,41 +127,41 @@ export default function Search() {
               <Divider></Divider>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <ListItem> {servicesData.data.fecha_create}</ListItem>
+                  <ListItem> {servicesData.fecha_create}</ListItem>
                 </Grid>
                 <Grid item xs={6}>
-                  {servicesData.data.estado}
+                  {servicesData.estado}
                 </Grid>
                 <Grid item xs={6}>
                   <ListItem>
                     <Box sx={{ flexDirection: "column" }}>
-                      {servicesData.data.guia}
+                      {servicesData.guia}
                       Número de entrega
                     </Box>
                   </ListItem>
                 </Grid>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
-                  <ListItem> {servicesData.data.ciudad} Ciudad</ListItem>
+                  <ListItem> {servicesData.ciudad} Ciudad</ListItem>
                 </Grid>
                 <Grid item xs={6}></Grid>{" "}
                 <Grid item xs={6}>
-                  <ListItem> {servicesData.data.cedi} Parte desde</ListItem>
+                  <ListItem> {servicesData.cedi} Parte desde</ListItem>
                 </Grid>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
                   <ListItem>
-                    {servicesData.data.nombre_cliente} Nombre cliente
+                    {servicesData.nombre_cliente} Nombre cliente
                   </ListItem>
                 </Grid>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
                   <ListItem>
-                    {servicesData.data.direccion} Dirección de entrega
+                    {servicesData.direccion} Dirección de entrega
                   </ListItem>
                 </Grid>
                 <Grid item xs={6}>
-                  {servicesData.data.novedad} Novedades
+                  {servicesData.novedad} Novedades
                 </Grid>
               </Grid>
             </Box>
