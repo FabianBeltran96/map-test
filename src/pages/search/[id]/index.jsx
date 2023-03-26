@@ -50,7 +50,7 @@ export default function Search() {
       }
     };
 
-    const searchService = async (id: string) => {
+    const searchService = async (id) => {
       if (id) {
         let url = `https://integracion.smartquick.com.co:3005/v1/services/search/?code=${id}`;
         try {
@@ -63,7 +63,7 @@ export default function Search() {
     };
 
     fetchData();
-    searchService(id as string);
+    searchService(id);
   }, []);
   // const loginRoute = () =>  {
   //   let url = `https://new-srouter-qa.smartquick.com.co/api/login/`
