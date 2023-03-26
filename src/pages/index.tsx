@@ -3,8 +3,12 @@ import Container from "@mui/material/Container";
 import { TextField, Button, Box, Avatar } from "@mui/material";
 import Logo from "../assets/img/iconQuick.png";
 import useSWR from "swr";
+import { useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
+  const [serviceId, setServiceId] = useState("");
+
   return (
     <>
       <Head>
@@ -21,7 +25,7 @@ export default function Home() {
           minHeight="100vh"
         >
           <div className="w-96 bg-gray-500 px-6 py-8 rounded-lg">
-            <Avatar className="mx-auto" src={"/src/assets/img/iconQuick.png" }/>
+            <Avatar className="mx-auto" src={"/src/assets/img/iconQuick.png"} />
             <div className="text-xl mb-2 mx-auto">Bienvenido</div>
             <div className="text-sm mb-2 mx-auto">
               Sigue tus envios con la orden de transporte
@@ -32,12 +36,15 @@ export default function Home() {
                 className="w-full"
                 label="Orden de transporte"
                 variant="filled"
+                onChange={(e) => setServiceId(e.target.value)}
               />
             </div>
             <div className="mt-6">
-              <Button className="w-full h-14" variant="contained">
-                Buscar servicio
-              </Button>
+              <Link href={`/search/${serviceId}`}>
+                <Button className="w-full h-14" variant="contained">
+                  Buscar servicio
+                </Button>
+              </Link>
             </div>
           </div>
         </Box>
