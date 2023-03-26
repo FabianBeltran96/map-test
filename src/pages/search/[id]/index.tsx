@@ -7,17 +7,75 @@ import {
   IconButton,
   TextField,
   ListItem,
+  Typography,
+  Link,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Divider } from "@material-ui/core";
+import HTTP from "@/pages/api/http-commons";
+import { loginURL, fecthLogin } from "@/pages/api/login/login";
+import axios from "axios";
 
 export default function Search() {
   const router = useRouter();
   const { id } = router.query;
 
+  const [newServiceId, setNewServiceId] = useState("");
+
+  const [servicesData, setServicesData] = useState({
+    companies: [],
+    data: {},
+    status: "",
+  });
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+
+  useEffect(() => {
+    console.log("Loading...");
+    let jsonUser = {
+      username: "admin",
+      password: "Mnzx9874",
+    };
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.post(
+          "https://new-srouter-qa.smartquick.com.co/api/login/",
+          jsonUser
+        );
+        localStorage.setItem("TokenRoute", data.token);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const searchService = async (id: string) => {
+      if (id) {
+        let url = `https://integracion.smartquick.com.co:3005/v1/services/search/?code=${id}`;
+        try {
+          const { data } = await axios.get(url);
+          setServicesData(data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    fetchData();
+    searchService(id as string);
+  }, []);
+  // const loginRoute = () =>  {
+  //   let url = `https://new-srouter-qa.smartquick.com.co/api/login/`
+  //   let jsonUser = {
+  //     username: "admin",
+  //     password: "Mnzx9874"
+  //   }
+  //   HTTP.setHeader(false)
+  //   HTTP.post(url, jsonUser)
+  //     .then((response) => {
+  //       localStorage.setItem('TokenRoute', response.data.token)
+  //     })
 
   return (
     <Container maxWidth="sm">
@@ -51,50 +109,66 @@ export default function Search() {
                 className="w-2/3 m-1"
                 label="Orden de transporte"
                 variant="filled"
+                onChange={(e) => setNewServiceId(e.target.value)}
               />
-              <Button className="w-1/4 m-1 h-14" variant="contained">
-                Buscar
-              </Button>
+              <Link href={`/search/${newServiceId}`}>
+                <Button className="w-1/4 m-1 h-14" variant="contained">
+                  Buscar
+                </Button>
+              </Link>
             </Box>
             <Divider />
-            <Box className="bg-slate-500 rounded p-2 my-2">
-              <h3>Datos de la entrega</h3>
+            <Box className="bg-slate-500 rounded p-3 my-2">
+              <Typography component="div" variant="h5">
+                Datos de la entrega
+              </Typography>
               <Divider></Divider>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <ListItem> 22/03/2023</ListItem>
+                  <ListItem> {servicesData.data.fecha_create}</ListItem>
                 </Grid>
                 <Grid item xs={6}>
-                  En ruta
+                  {servicesData.data.estado}
                 </Grid>
                 <Grid item xs={6}>
                   <ListItem>
                     <Box sx={{ flexDirection: "column" }}>
-                      PRUEBA-SEGUIMIENTO Número de entrega
+                      {servicesData.data.guia}
+                      Número de entrega
                     </Box>
                   </ListItem>
                 </Grid>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
-                  <ListItem> Santiago Ciudad DPS</ListItem>
+                  <ListItem> {servicesData.data.ciudad} Ciudad</ListItem>
                 </Grid>
-                <Grid item xs={6}></Grid>
+                <Grid item xs={6}></Grid>{" "}
                 <Grid item xs={6}>
-                  <ListItem>Tatiuska Bellorin Se entrega</ListItem>
+                  <ListItem> {servicesData.data.cedi} Parte desde</ListItem>
                 </Grid>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
                   <ListItem>
-                    diagonal vicuña mackenna 2004 1908 Dirección de entrega
+                    {servicesData.data.nombre_cliente} Nombre cliente
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6}></Grid>
+                <Grid item xs={6}>
+                  <ListItem>
+                    {servicesData.data.direccion} Dirección de entrega
                   </ListItem>
                 </Grid>
                 <Grid item xs={6}>
-                  SIN NOVEDAD Novedades
+                  {servicesData.data.novedad} Novedades
                 </Grid>
               </Grid>
             </Box>
-            <Box className="bg-slate-500 rounded p-2">
-              <h3>Datos del conductor</h3>
+
+            {/* //TODO: Hacer un componente para el conductor */}
+            <Box className="bg-slate-500 rounded p-3">
+              <Typography component="div" variant="h5">
+                Datos del conductor
+              </Typography>
               <Divider></Divider>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
