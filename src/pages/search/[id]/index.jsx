@@ -66,7 +66,7 @@ export default function Search() {
 
     fetchData();
     searchService(id);
-  }, []);
+  }, [id, router]);
   // const loginRoute = () =>  {
   //   let url = `https://new-srouter-qa.smartquick.com.co/api/login/`
   //   let jsonUser = {
