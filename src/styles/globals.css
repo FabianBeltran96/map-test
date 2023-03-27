@@ -8,3 +8,8 @@
   background-position: 50%;
   background-repeat: no-repeat;
 }
+
+.leaflet-container {
+  height: 100vh;
+  width: 100vw;
+}

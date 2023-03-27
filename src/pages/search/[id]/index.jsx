@@ -12,10 +12,9 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState, useRef } from "react";
 import { Divider } from "@material-ui/core";
-import HTTP from "@/pages/api/http-commons";
-import { loginURL, fecthLogin } from "@/pages/api/login/login";
+import MapView from "@/components/MapView";
 import axios from "axios";
 
 export default function Search() {
@@ -27,6 +26,8 @@ export default function Search() {
   const [servicesData, setServicesData] = useState({});
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+
+  const [serviceCoord, setServiceCoord] = useState({});
 
   useEffect(() => {
     console.log("Loading...");
@@ -52,8 +53,17 @@ export default function Search() {
         try {
           const { data } = await axios.get(url);
           if (data.data) {
-            console.log(data);
             setServicesData(data.data);
+            setServiceCoord({
+              cedi_coords: [
+                parseFloat(data.data.cy_cedi),
+                parseFloat(data.data.cx_cedi),
+              ],
+              client_coords: [
+                parseFloat(data.data.cy_cliente),
+                parseFloat(data.data.cx_cliente),
+              ],
+            });
           } else {
             router.push("/");
           }
@@ -188,6 +198,7 @@ export default function Search() {
             </Button> */}
           </Box>
         </Drawer>
+        <MapView markers={serviceCoord}></MapView>
         <IconButton
           size="large"
           edge="start"
@@ -195,7 +206,6 @@ export default function Search() {
         >
           <MenuIcon />
         </IconButton>
-        <h1>Search {id} </h1>
       </Box>
     </Container>
   );
