@@ -17,6 +17,7 @@ import { Divider } from "@material-ui/core";
 import HTTP from "@/pages/api/http-commons";
 import { loginURL, fecthLogin } from "@/pages/api/login/login";
 import axios from "axios";
+import MapView from "@/components/MapView";
 
 export default function Search() {
   const router = useRouter();
@@ -167,7 +168,7 @@ export default function Search() {
             </Box>
 
             {/* //TODO: Hacer un componente para el conductor */}
-            <Box className="bg-slate-500 rounded p-3">
+            {/* <Box className="bg-slate-500 rounded p-3">
               <Typography component="div" variant="h5">
                 Datos del conductor
               </Typography>
@@ -182,12 +183,14 @@ export default function Search() {
                   DPS-01 Placa{" "}
                 </Grid>
               </Grid>
-            </Box>
+            </Box> */}
             <Button className="w-3/4 m-2 h-14" variant="contained">
               Ver evidencias
             </Button>
           </Box>
         </Drawer>
+
+        <MapView></MapView>
         <IconButton
           size="large"
           edge="start"
@@ -195,7 +198,6 @@ export default function Search() {
         >
           <MenuIcon />
         </IconButton>
-        <h1>Search {id} </h1>
       </Box>
     </Container>
   );

@@ -45,6 +45,11 @@ export default function Home() {
                   Buscar servicio
                 </Button>
               </Link>
+              <Link href={`/map`}>
+                <Button className="w-full h-14" variant="contained">
+                 Mapa
+                </Button>
+              </Link>
             </div>
           </div>
         </Box>
