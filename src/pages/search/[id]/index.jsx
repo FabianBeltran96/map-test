@@ -167,7 +167,7 @@ export default function Search() {
             </Box>
 
             {/* //TODO: Hacer un componente para el conductor */}
-            <Box className="bg-slate-500 rounded p-3">
+            {/* <Box className="bg-slate-500 rounded p-3">
               <Typography component="div" variant="h5">
                 Datos del conductor
               </Typography>
@@ -182,10 +182,10 @@ export default function Search() {
                   DPS-01 Placa{" "}
                 </Grid>
               </Grid>
-            </Box>
-            <Button className="w-3/4 m-2 h-14" variant="contained">
+            </Box> */}
+            {/* <Button className="w-3/4 m-2 h-14" variant="contained">
               Ver evidencias
-            </Button>
+            </Button> */}
           </Box>
         </Drawer>
         <IconButton
