@@ -12,10 +12,15 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/router";
-import { use, useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Divider } from "@material-ui/core";
-import MapView from "@/components/MapView";
+import dynamic from "next/dynamic";
 import axios from "axios";
+
+const DynamicMapView = dynamic(() => import("@/components/MapView"), {
+  loading: () => <p>Loading...</p>,
+  ssr: false,
+});
 
 export default function Search() {
   const router = useRouter();
@@ -27,7 +32,10 @@ export default function Search() {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
-  const [serviceCoord, setServiceCoord] = useState({});
+  const [serviceCoord, setServiceCoord] = useState({
+    cedi_coords: [6.204824, -75.601371],
+    client_coords: [6.204824, -75.601371],
+  });
 
   useEffect(() => {
     console.log("Loading...");
@@ -64,6 +72,7 @@ export default function Search() {
                 parseFloat(data.data.cx_cliente),
               ],
             });
+            console.log(serviceCoord, "serviceCoord");
           } else {
             router.push("/");
           }
@@ -77,17 +86,6 @@ export default function Search() {
     fetchData();
     searchService(id);
   }, [id, router]);
-  // const loginRoute = () =>  {
-  //   let url = `https://new-srouter-qa.smartquick.com.co/api/login/`
-  //   let jsonUser = {
-  //     username: "admin",
-  //     password: "Mnzx9874"
-  //   }
-  //   HTTP.setHeader(false)
-  //   HTTP.post(url, jsonUser)
-  //     .then((response) => {
-  //       localStorage.setItem('TokenRoute', response.data.token)
-  //     })
 
   return (
     <Container maxWidth="sm">
@@ -198,7 +196,8 @@ export default function Search() {
             </Button> */}
           </Box>
         </Drawer>
-        <MapView markers={serviceCoord}></MapView>
+
+        <DynamicMapView markers={serviceCoord}></DynamicMapView>
         <IconButton
           size="large"
           edge="start"
