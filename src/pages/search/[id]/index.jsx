@@ -24,7 +24,7 @@ export default function Search() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [newServiceId, setNewServiceId] = useState('');
+  const [newServiceId, setNewServiceId] = useState("");
 
   const [servicesData, setServicesData] = useState({});
 
@@ -119,7 +119,9 @@ export default function Search() {
                 value={newServiceId}
                 onChange={(e) => setNewServiceId(e.target.value)}
               />
-              <Link href={newServiceId === "" ? `/` : `/search/${newServiceId}`}>
+              <Link
+                href={newServiceId === "" ? `/` : `/search/${newServiceId}`}
+              >
                 <Button
                   disabled={newServiceId === ""}
                   className="w-1/4 m-2 h-14"
