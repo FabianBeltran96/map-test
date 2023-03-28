@@ -3,13 +3,11 @@ import {
   Button,
   Container,
   Drawer,
-  Grid,
   IconButton,
   TextField,
-  ListItem,
-  Typography,
   Link,
 } from "@mui/material";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -26,7 +24,7 @@ export default function Search() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [newServiceId, setNewServiceId] = useState("");
+  const [newServiceId, setNewServiceId] = useState('');
 
   const [servicesData, setServicesData] = useState({});
 
@@ -88,7 +86,7 @@ export default function Search() {
   }, [id, router]);
 
   return (
-    <Container maxWidth="sm">
+    <Container>
       <Box
         display="flex"
         justifyContent="center"
@@ -107,72 +105,67 @@ export default function Search() {
         >
           <Box
             justifyContent="center"
-            p={2}
-            width="380px"
+            width="400px"
             textAlign="center"
             role="presentation"
           >
             <h1>Informacion Domicilio</h1>
             <p>¡Rastrea y hazle seguimiento a tu entrega!</p>
-            <Box>
+            <div>
               <TextField
-                className="w-2/3 m-1"
+                className="w-3/5 m-2"
                 label="Orden de transporte"
                 variant="filled"
+                value={newServiceId}
                 onChange={(e) => setNewServiceId(e.target.value)}
               />
-              <Link href={`/search/${newServiceId}`}>
-                <Button className="w-1/4 m-1 h-14" variant="contained">
+              <Link href={newServiceId === "" ? `/` : `/search/${newServiceId}`}>
+                <Button
+                  disabled={newServiceId === ""}
+                  className="w-1/4 m-2 h-14"
+                  variant="contained"
+                >
                   Buscar
                 </Button>
               </Link>
-            </Box>
+            </div>
             <Divider />
-            <Box className="bg-slate-500 rounded p-3 my-2">
-              <Typography component="div" variant="h5">
-                Datos de la entrega
-              </Typography>
+            <div>
+              <h2>Datos de la entrega</h2>
               <Divider></Divider>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <ListItem> {servicesData.fecha_create}</ListItem>
-                </Grid>
-                <Grid item xs={6}>
-                  {servicesData.estado}
-                </Grid>
-                <Grid item xs={6}>
-                  <ListItem>
-                    <Box sx={{ flexDirection: "column" }}>
-                      {servicesData.guia}
-                      Número de entrega
-                    </Box>
-                  </ListItem>
-                </Grid>
-                <Grid item xs={6}></Grid>
-                <Grid item xs={6}>
-                  <ListItem> {servicesData.ciudad} Ciudad</ListItem>
-                </Grid>
-                <Grid item xs={6}></Grid>{" "}
-                <Grid item xs={6}>
-                  <ListItem> {servicesData.cedi} Parte desde</ListItem>
-                </Grid>
-                <Grid item xs={6}></Grid>
-                <Grid item xs={6}>
-                  <ListItem>
-                    {servicesData.nombre_cliente} Nombre cliente
-                  </ListItem>
-                </Grid>
-                <Grid item xs={6}></Grid>
-                <Grid item xs={6}>
-                  <ListItem>
-                    {servicesData.direccion} Dirección de entrega
-                  </ListItem>
-                </Grid>
-                <Grid item xs={6}>
-                  {servicesData.novedad} Novedades
-                </Grid>
-              </Grid>
-            </Box>
+              <div className="grid grid-cols-2 gap-4 p-4">
+                <div>{servicesData.fecha_create}</div>
+                <div>{servicesData.estado}</div>
+                <div>
+                  <div>{servicesData.guia}</div>
+                  <div className="font-bold"> Número de entrega</div>
+                </div>
+                <div></div>
+                <div>
+                  <div>{servicesData.ciudad}</div>
+                  <div className="font-bold"> Ciudad</div>
+                </div>
+                <div></div>
+                <div>
+                  <div>{servicesData.cedi}</div>
+                  <div className="font-bold">Parte desde</div>
+                </div>
+                <div></div>
+                <div>
+                  <div>{servicesData.nombre_cliente}</div>
+                  <div className="font-bold">Nombre cliente</div>
+                </div>
+                <div></div>
+                <div>
+                  <div>{servicesData.direccion}</div>
+                  <div className="font-bold">Dirección de entrega</div>
+                </div>
+                <div>
+                  <div>{servicesData.novedad}</div>
+                  <div className="font-bold">Novedades</div>
+                </div>
+              </div>
+            </div>
 
             {/* //TODO: Hacer un componente para el conductor */}
             {/* <Box className="bg-slate-500 rounded p-3">
@@ -180,16 +173,16 @@ export default function Search() {
                 Datos del conductor
               </Typography>
               <Divider></Divider>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <ListItem>
+              <div container spacing={2}>
+                <div >
+                  
                     Tatiuska Naileth Bellorin Beleño Nombre conductor
-                  </ListItem>
-                </Grid>
-                <Grid item xs={6}>
+                  
+                </div>
+                <div >
                   DPS-01 Placa{" "}
-                </Grid>
-              </Grid>
+                </div>
+              </div>
             </Box> */}
             {/* <Button className="w-3/4 m-2 h-14" variant="contained">
               Ver evidencias
@@ -199,6 +192,7 @@ export default function Search() {
 
         <DynamicMapView markers={serviceCoord}></DynamicMapView>
         <IconButton
+          color="primary"
           size="large"
           edge="start"
           onClick={() => setIsDrawerOpen(true)}

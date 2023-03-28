@@ -1,9 +1,8 @@
 import Head from "next/head";
 import Container from "@mui/material/Container";
-import { TextField, Button, Box, Avatar } from "@mui/material";
-import Logo from "../assets/img/iconQuick.png";
-import useSWR from "swr";
+import { TextField, Button, Box } from "@mui/material";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 export default function Home() {
@@ -24,14 +23,16 @@ export default function Home() {
           alignItems="center"
           minHeight="100vh"
         >
-          <div className="w-96 bg-gray-500 px-6 py-8 rounded-lg">
-            <Avatar className="mx-auto" src={"/src/assets/img/iconQuick.png"} />
-            <div className="text-xl mb-2 mx-auto">Bienvenido</div>
-            <div className="text-sm mb-2 mx-auto">
-              Sigue tus envios con la orden de transporte
+          <div className="w-96 bg-white p-5 shadow-2xl">
+            <div className="w-64 mx-auto py-4">
+              <h1 className="text-center font-bold text-2xl mb-4 ">
+                Bienvenido
+              </h1>
+              <div className="text-center text-sm mb-4">
+                Sigue tus envios con la orden de transporte
+              </div>
             </div>
             <div className="my-4">
-              <div className="text-sm mb-2 mx-auto">Buscar servicio</div>
               <TextField
                 className="w-full"
                 label="Orden de transporte"
@@ -40,8 +41,12 @@ export default function Home() {
               />
             </div>
             <div className="mt-6">
-              <Link href={`/search/${serviceId}`}>
-                <Button className="w-full h-14" variant="contained">
+              <Link href={serviceId === "" ? `/` : `/search/${serviceId}`}>
+                <Button
+                  disabled={serviceId === ""}
+                  className="w-full h-14"
+                  variant="contained"
+                >
                   Buscar servicio
                 </Button>
               </Link>
